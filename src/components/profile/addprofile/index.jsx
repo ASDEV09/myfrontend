@@ -5,74 +5,74 @@ const AddProfile = ({ onProfileAdded }) => {
     name: "",
     age: "",
     country: "",
-    avatar: ""
+    avatar: null,
   });
 
   const addProfile = async (e) => {
     e.preventDefault();
+
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("age", formData.age);
+    data.append("country", formData.country);
+    data.append("avatar", formData.avatar);
+
     try {
-      const response = await fetch("https://api-lilac.vercel.app/profile", {
+      const response = await fetch("http://localhost:5000/profile", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: data,
       });
 
-      const data = await response.json();
-      alert(data.message);
+      const result = await response.json();
+      alert(result.message);
 
-      // Refresh list
       onProfileAdded();
-
-      // Reset form
-      setFormData({ name: "", age: "", country: "", avatar: "" });
+      setFormData({ name: "", age: "", country: "", avatar: null });
+      e.target.reset();
     } catch (error) {
-      console.log("❌ Error adding profile:", error);
+      console.error("❌ Error adding profile:", error);
     }
   };
 
   return (
-    <form onSubmit={addProfile} className="mb-5">
+    <form onSubmit={addProfile} className="mb-5" encType="multipart/form-data">
       <h3 className="mb-3">Add Profile</h3>
-      <div className="mb-2">
-        <input
-          type="text"
-          placeholder="Name"
-          className="form-control"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <input
-          type="text"
-          placeholder="Age"
-          className="form-control"
-          value={formData.age}
-          onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <input
-          type="text"
-          placeholder="Country"
-          className="form-control"
-          value={formData.country}
-          onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <input
-          type="text"
-          placeholder="Avatar URL"
-          className="form-control"
-          value={formData.avatar}
-          onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-          required
-        />
-      </div>
+
+      <input
+        type="text"
+        placeholder="Name"
+        className="form-control mb-2"
+        value={formData.name}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        required
+      />
+
+      <input
+        type="number"
+        placeholder="Age"
+        className="form-control mb-2"
+        value={formData.age}
+        onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+        required
+      />
+
+      <input
+        type="text"
+        placeholder="Country"
+        className="form-control mb-2"
+        value={formData.country}
+        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+        required
+      />
+
+      <input
+        type="file"
+        accept="image/*"
+        className="form-control mb-2"
+        onChange={(e) => setFormData({ ...formData, avatar: e.target.files[0] })}
+        required
+      />
+
       <button className="btn btn-primary w-100">Add Profile</button>
     </form>
   );
