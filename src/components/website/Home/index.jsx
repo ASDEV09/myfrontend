@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -41,6 +42,8 @@ function Dashboard() {
         <h1>
           {user ? `Welcome ${user.name} 👋` : "Welcome to Our Website 👋"}
         </h1>
+              <Link className="nav-link" to="/myprofile">myprofile</Link>
+
       </div>
     </>
   );
