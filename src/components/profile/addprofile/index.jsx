@@ -18,7 +18,7 @@ const AddProfile = ({ onProfileAdded }) => {
     data.append("avatar", formData.avatar);
 
     try {
-      const response = await fetch("http://localhost:5000/profile", {
+      const response = await fetch("https://api-lilac.vercel.app/profile", {
         method: "POST",
         body: data,
       });

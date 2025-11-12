@@ -7,7 +7,7 @@ const ApiFetch = () => {
 
   const getProfiles = async () => {
     try {
-      const response = await fetch("http://localhost:5000/profile");
+      const response = await fetch("https://api-lilac.vercel.app/profile");
       const data = await response.json();
       if (Array.isArray(data.profiles)) {
         setProfiles(data.profiles);
